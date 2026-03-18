@@ -56,11 +56,8 @@ export const register = async (req, res) => {
         console.log(newUser);
 
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        }
-        )
+        console.error(err); // <-- check what exactly fails
+        res.status(500).json({ message: "Server error" });
     }
 }
 //email verification here
