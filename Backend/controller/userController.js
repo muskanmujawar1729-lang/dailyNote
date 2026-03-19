@@ -10,56 +10,61 @@ import { sendOtpMail } from "../otpVerify/sendOtpMail.js";
 export const register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
+
         if (!username || !email || !password) {
             return res.status(400).json({
                 success: false,
                 message: "All Fields are required"
-            }
-            )
+            });
         }
-        const existingUser = await User.findOne({ email })
+
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
                 success: false,
                 message: "User Already Exist"
-            }
-            )
+            });
         }
+
         if (password.length < 6) {
             return res.status(400).json({
                 success: false,
                 message: "Password Must be at least 6 Character"
-            }
-            )
+            });
         }
-        const hashPassword = await bcrypt.hash(password, 10)
+
+        const hashPassword = await bcrypt.hash(password, 10);
+
         const newUser = await User.create({
             username,
             email,
-            password: hashPassword,
+            password: hashPassword
+        });
 
-        })
+        const token = jwt.sign(
+            { id: newUser._id },
+            process.env.SECRET_KEY,
+            { expiresIn: "10m" }
+        );
 
-        //set Token Here
-        const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, { expiresIn: "10m" })
-        verifyMail(token, email)
+        verifyMail(token, email);
+
         newUser.token = token;
-        await newUser.save()
+        await newUser.save();
+
+        console.log(newUser);
 
         return res.status(201).json({
             success: true,
-            message: "user Registerd Successfully", newUser
-
-        }
-
-        )
-        console.log(newUser);
+            message: "User Registered Successfully",
+            newUser
+        });
 
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
-}
+};
 //email verification here
 
 export const verification = async (req, res) => {
