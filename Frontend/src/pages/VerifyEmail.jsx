@@ -19,9 +19,8 @@ function VerifyEmail() {
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true
+            Authorization: `Bearer ${token}`
+          }
         }
       )
 
@@ -29,51 +28,34 @@ function VerifyEmail() {
 
       setTimeout(() => {
         navigate("/login")
-      }, 5000) // 5 seconds
+      }, 3000)
 
     } catch (error) {
 
       console.log(error)
 
       toast.error(
-        error.response?.data?.message || "Verification failed"
+        error?.response?.data?.message || "Verification failed"
       )
     }
   }
 
   useEffect(() => {
-    if (token) {
-      verifyEmail()
-    }
+    if (token) verifyEmail()
   }, [token])
 
   return (
-    <>
-  <div className="flex flex-col items-center justify-center min-h-screen text-white gap-3">
+    <div className="flex flex-col items-center justify-center min-h-screen text-white gap-3">
+      <h2 className="text-xl font-semibold">Verifying Email...</h2>
+      <p className="text-gray-400">Please wait while we verify your account</p>
 
-    <h2 className="text-xl font-semibold">
-      Verifying Email...
-    </h2>
-
-    <h3 className="text-gray-300 text-center">
-      Go to email and check your mail
-    </h3>
-
-    <p className="text-gray-400 text-sm">
-      And Verify Your account
-    </p>
-
-    <button
-      onClick={() => navigate("/login")}
-      className="mt-4 bg-green-500 px-5 py-2 rounded-md hover:bg-green-600 transition"
-    >
-      Login
-    </button>
-
-  </div>
-</>
-
-
+      <button
+        onClick={() => navigate("/login")}
+        className="mt-4 bg-green-500 px-5 py-2 rounded-md"
+      >
+        Login
+      </button>
+    </div>
   )
 }
 
