@@ -68,52 +68,50 @@ export const register = async (req, res) => {
 //email verification here
 
 export const verification = async (req, res) => {
-    try {
+  try {
 
-        const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(400).json({
-                success: false,
-                message: "Token missing"
-            });
-        }
-
-        const token = authHeader.split(" ")[1];
-
-        // verify token
-        const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-        const user = await User.findById(decoded.id);
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found"
-            });
-        }
-
-        // ⭐ user verify
-        user.isVerified = true;
-        user.token = null;
-
-        await user.save();
-
-        return res.status(200).json({
-            success: true,
-            message: "Email verified successfully"
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(400).json({
+        success:false,
+        message:"Token missing"
+      });
     }
-};
 
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    const user = await User.findById(decoded.id);
+
+    if(!user){
+      return res.status(404).json({
+        success:false,
+        message:"User not found"
+      })
+    }
+
+    // ⭐ verify user
+    user.isVerified = true
+    user.token = null
+
+    await user.save()
+
+    return res.status(200).json({
+      success:true,
+      message:"Email verified successfully"
+    })
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success:false,
+      message:error.message
+    })
+
+  }
+}
 //login User
 export const loginUser = async (req, res) => {
     try {
