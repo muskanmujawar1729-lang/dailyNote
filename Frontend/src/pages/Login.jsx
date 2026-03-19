@@ -13,7 +13,6 @@ function Login() {
 
     const navigate = useNavigate()
 
-    // validation
     const validate = () => {
 
         let newErrors = {}
@@ -39,7 +38,9 @@ function Login() {
         e.preventDefault()
 
         if (!validate()) return
+
         setLoading(true)
+        setError("")
 
         try {
 
@@ -53,23 +54,26 @@ function Login() {
 
             console.log(res.data)
 
-            // token store
             localStorage.setItem("token", res.data.accessToken)
-
-            // ⭐ username store
             localStorage.setItem("username", res.data.user.username)
 
             toast.success(res.data.message)
 
-            // navigate to home
             navigate("/home")
 
         } catch (error) {
 
-            setError(error.response?.data?.message || "Something went wrong")
+            const message =
+                error.response?.data?.message || "Login failed"
+
+            setError(message)
+
+            toast.error(message)
 
         } finally {
+
             setLoading(false)
+
         }
     }
 
@@ -123,6 +127,7 @@ function Login() {
 
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="bg-green-600 h-8 rounded-md text-white mt-2"
                     >
                         {isLoading ? "Logging in..." : "Login"}
