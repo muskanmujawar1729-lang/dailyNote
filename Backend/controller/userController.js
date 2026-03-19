@@ -22,7 +22,7 @@ export const register = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "User Already Exist"
-            }   
+            }
             )
         }
         if (password.length < 6) {
@@ -56,7 +56,7 @@ export const register = async (req, res) => {
         console.log(newUser);
 
     } catch (error) {
-        console.error(err); // <-- check what exactly fails
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 }
@@ -198,35 +198,35 @@ export const loginUser = async (req, res) => {
 }
 //logout user
 export const logoutUser = async (req, res) => {
-  try {
-    const userId = req.userId;
+    try {
+        const userId = req.userId;
 
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: "User not found",
-      });
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        await Session.deleteMany({ userId });
+
+        await User.findByIdAndUpdate(userId, { isLoggedIn: false });
+
+        await Note.deleteMany({ userId }); // optional (if you want to delete notes)
+
+        res.clearCookie("token");
+
+        return res.status(200).json({
+            success: true,
+            message: "Logout successfully",
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-
-    await Session.deleteMany({ userId });
-
-    await User.findByIdAndUpdate(userId, { isLoggedIn: false });
-
-    await Note.deleteMany({ userId }); // optional (if you want to delete notes)
-
-    res.clearCookie("token");
-
-    return res.status(200).json({
-      success: true,
-      message: "Logout successfully",
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
 //Forget Password here
 export const forgetPassword = async (req, res) => {
@@ -372,32 +372,32 @@ export const changePassword = async (req, res) => {
 
 //this code for notes 
 export const createNote = async (req, res) => {
-  try {
+    try {
 
-    const { name, date, subject, text } = req.body;
+        const { name, date, subject, text } = req.body;
 
-    if (!name || !date || !subject || !text) {
-      return res.status(400).json({
-        message: "All fields are required"
-      });
+        if (!name || !date || !subject || !text) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
+        const data = {
+            name,
+            date,
+            subject,
+            text
+        };
+
+        return res.status(200).json({
+            message: "Note Created Successfully",
+            data: data
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            error: error.message
+        });
     }
-
-    const data = {
-      name,
-      date,
-      subject,
-      text
-    };
-
-    return res.status(200).json({
-      message: "Note Created Successfully",
-      data: data
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      message: "Server Error",
-      error: error.message
-    });
-  }
 };
