@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ["https://my-notes-apps.netlify.app/"],
+  origin: ["https://my-notes-apps.netlify.app"],
   credentials: true
 }));
 
