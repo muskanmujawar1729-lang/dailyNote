@@ -8,13 +8,21 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin: "https://my-notes-apps.netlify.app",
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(cookieParser());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin: ["https://my-notes-apps.netlify.app"],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: ["https://my-notes-apps.netlify.app"],
+//   credentials: true
+// }));
 
 app.get("/", (req, res) => {
   res.send("Hello Muskan");
