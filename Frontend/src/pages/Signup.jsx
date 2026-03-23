@@ -51,7 +51,7 @@ function Signup() {
     try {
 
       const res = await axios.post(
-        "https://dailynote-4.onrender.com/user/register",
+        "http://localhost:4000/user/register",
         {
           username,
           email,
@@ -76,7 +76,7 @@ function Signup() {
 
     } catch (error) {
 
-      setError(error.response?.data?.message || "Something went wrong")
+      setError(error.response?.data?.message)
       console.log(error)
 
     }

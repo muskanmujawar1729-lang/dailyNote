@@ -18,13 +18,13 @@ export const verifyMail = async(token,email)=>{
     const transporter = nodemailer.createTransport({
         service:"gmail",
         auth:{
-            user:process.env.MAIL_USER,
+            user:process.env.EMAIL,
             pass:process.env.PASSWORD
         }
     })
 
     const mailConfigurations = {
-        from : process.env.MAIL_USER,
+        from : process.env.EMAIL,
         to:email,
         subject:"Email Verification",
         html:htmlToSend

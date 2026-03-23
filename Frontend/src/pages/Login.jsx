@@ -14,7 +14,6 @@ function Login() {
     const navigate = useNavigate()
 
     const validate = () => {
-
         let newErrors = {}
 
         if (!email) {
@@ -28,7 +27,6 @@ function Login() {
         } else if (password.length < 6) {
             newErrors.password = "Password must be at least 6 characters"
         }
-
         setErrors(newErrors)
 
         return Object.keys(newErrors).length === 0
@@ -38,14 +36,13 @@ function Login() {
         e.preventDefault()
 
         if (!validate()) return
-
         setLoading(true)
         setError("")
 
         try {
 
             const res = await axios.post(
-                "https://dailynote-4.onrender.com/user/login",
+                "http://localhost:4000/user/login",
                 {
                     email,
                     password
