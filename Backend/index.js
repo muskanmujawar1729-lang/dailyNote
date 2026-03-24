@@ -4,6 +4,7 @@ import ConnectDb from "./Database/Db.js";
 import userRoute from "./routes/userRouter.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
