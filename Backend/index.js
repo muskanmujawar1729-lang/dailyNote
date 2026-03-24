@@ -16,16 +16,39 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(express.json());
-// app.use(cookieParser());
 
-// app.use(cors({
-//   origin: ["https://my-notes-apps.netlify.app"],
-//   credentials: true
-// }));
 
 app.get("/", (req, res) => {
   res.send("Hello Muskan");
+});
+
+app.get("/test-mail", async (req, res) => {
+  try {
+    console.log("EMAIL:", process.env.EMAIL);
+    console.log("PASSWORD:", process.env.PASSWORD);
+
+    const transporter = (await import("nodemailer")).default.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: process.env.EMAIL,
+      subject: "Test Mail",
+      text: "Mail is working"
+    });
+
+    console.log("SUCCESS:", info.response);
+    res.send("Mail sent");
+
+  } catch (error) {
+    console.log("ERROR FULL:", error);
+    res.send("Error sending mail");
+  }
 });
 
 app.use("/user", userRoute);
