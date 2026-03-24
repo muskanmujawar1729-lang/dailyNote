@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path='' element={< Header/>} />
           <Route path='/signup' element={<Signup />} />
-          <Route path="/verifyEmail" element={<VerifyEmail />} />
+          {/* <Route path="/verifyEmail" element={<VerifyEmail />} /> */}
           <Route path='/login' element={<Login />} />
           <Route path='/forgetpass' element={<ForgetPassword />} />
           <Route path='/verifyotp/:email' element={<VerifyOtp />} />
