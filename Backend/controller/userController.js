@@ -75,53 +75,29 @@ export const register = async (req, res) => {
 
 // ================= EMAIL VERIFICATION =================
 
-export const verification = async (req,res)=>{
-    try{
+export const verification = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization
+    if (!authHeader?.startsWith("Bearer "))
+      return res.status(400).json({ message: "Token missing" })
 
-        const authHeader = req.headers.authorization;
+    const token = authHeader.split(" ")[1]
 
-        if(!authHeader || !authHeader.startsWith("Bearer ")){
-            return res.status(400).json({
-                success:false,
-                message:"Token missing"
-            });
-        }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY)
 
-        const token = authHeader.split(" ")[1];
+    const user = await User.findOne({ email: decoded.email, token })
+    if (!user) return res.status(404).json({ message: "User not found or token invalid" })
 
-        const decoded = jwt.verify(token,process.env.SECRET_KEY);
+    user.isVerified = true
+    user.token = null
+    await user.save()
 
-        const user = await User.findOne({
-            _id:decoded.id,
-            token:token
-        });
+    res.status(200).json({ message: "Email verified successfully" })
 
-        if(!user){
-            return res.status(404).json({
-                success:false,
-                message:"User not found or token invalid"
-            });
-        }
-
-        user.isVerified = true;
-        user.token = null;
-
-        await user.save();
-
-        return res.status(200).json({
-            success:true,
-            message:"Email verified successfully"
-        });
-
-    }catch(error){
-
-        return res.status(500).json({
-            success:false,
-            message:error.message
-        });
-
-    }
-};
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
 
 
 

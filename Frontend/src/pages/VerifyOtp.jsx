@@ -26,8 +26,12 @@ function VerifyOtp() {
 
       const res = await axios.post(
         `https://mynoteapp-qr22.onrender.com/user/verify-otp/${email}`,
-        { otp }
+        { otp },
+        {
+          withCredentials: true   
+        }
       )
+
 
       setMessage(res.data.message)
 

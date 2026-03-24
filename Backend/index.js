@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://my-notes-apps.netlify.app",
+  origin: ["https://my-notes-apps.netlify.app", "http://localhost:5173"],
   credentials: true
 }));
 
