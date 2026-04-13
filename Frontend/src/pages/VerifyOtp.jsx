@@ -25,7 +25,7 @@ function VerifyOtp() {
     try {
 
       const res = await axios.post(
-        `http://localhost:4000/user/verify-otp/${email}`,
+        `https://dailynote-4.onrender.com/user/verify-otp/${email}`,
         { otp },
         {
           withCredentials: true   

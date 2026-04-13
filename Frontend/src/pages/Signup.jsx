@@ -51,7 +51,7 @@ function Signup() {
     try {
 
       const res = await axios.post(
-        "http://localhost:4000/user/register",
+        "https://dailynote-4.onrender.com/user/register",
         {
           username,
           email,

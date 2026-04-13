@@ -42,7 +42,7 @@ function Login() {
         try {
 
             const res = await axios.post(
-                "http://localhost:4000/user/login",
+                "https://dailynote-4.onrender.com/user/login",
                 {
                     email,
                     password

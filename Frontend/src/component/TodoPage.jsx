@@ -47,7 +47,7 @@ function TodoPage() {
         setEditIndex(null);
       } else {
         const res = await axios.post(
-          "http://localhost:4000/user/note",
+          "https://dailynote-4.onrender.com/user/note",
           { name, date, subject, text }
         );
 

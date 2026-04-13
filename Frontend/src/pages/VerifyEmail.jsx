@@ -15,7 +15,7 @@ function VerifyEmail() {
     try {
 
       const res = await axios.post(
-        "http://localhost:4000/user/verify",
+        "https://dailynote-4.onrender.com/user/verify",
         {},
         {
           headers: {

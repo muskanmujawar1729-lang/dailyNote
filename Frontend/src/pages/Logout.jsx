@@ -10,7 +10,7 @@ function Logout() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:4000/user/logout",
+        "https://dailynote-4.onrender.com/user/logout",
         {},
         {
           headers: {
