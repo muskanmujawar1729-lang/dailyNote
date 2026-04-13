@@ -75,25 +75,25 @@ function TodoPage() {
   };
 
   return (
-    <div className="h-screen bg-blue-950 overflow-hidden flex flex-col items-center fixed">
+    <div className="w-full min-h-[calc(100vh-4rem)] bg-blue-950 flex flex-col items-center py-4">
 
       {/* FORM CARD */}
-      <div className="bg-blue-950 shadow-md shadow-blue-900 w-96 rounded-lg p-4 mt-6 items-center  ">
-        <h1 className="text-center mt-2 text-2xl text-blue-200 font-bold">
+      <div className="w-full max-w-4xl bg-blue-950 shadow-md shadow-blue-900 rounded-3xl p-5 sm:p-8">
+        <h1 className="text-center mt-2 text-2xl sm:text-3xl text-blue-200 font-bold">
           DaiLy<span className="text-purple-400">NoteS</span>
         </h1>
 
-        <div className="flex flex-col gap-4 mt-6 items-center justify-between">
-          <div className="flex gap-2 w-64">
+        <div className="grid gap-4 mt-8">
+          <div className="grid gap-4 sm:grid-cols-2">
             <input
-              className="border w-32 h-10 p-1 text-sm rounded-md"
+              className="border border-slate-300 bg-white/5 text-slate-100 w-full h-12 p-3 text-sm rounded-xl"
               type="text"
-              value={name}
+              value={name || "Guest"}
               readOnly
             />
 
             <input
-              className="border w-32 h-10 p-1 text-sm rounded-md"
+              className="border border-slate-300 bg-white/5 text-slate-100 w-full h-12 p-3 text-sm rounded-xl"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
@@ -101,7 +101,7 @@ function TodoPage() {
           </div>
 
           <input
-            className="border w-64 h-10 p-1 text-sm rounded-md"
+            className="border border-slate-300 bg-white/5 text-slate-100 w-full h-12 p-3 text-sm rounded-xl"
             type="text"
             placeholder="Enter subject"
             value={subject}
@@ -109,7 +109,7 @@ function TodoPage() {
           />
 
           <textarea
-            className="border w-64 h-20 p-1 text-sm rounded-md"
+            className="border border-slate-300 bg-white/5 text-slate-100 w-full min-h-28 p-3 text-sm rounded-xl resize-none"
             placeholder="Text here..."
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -117,7 +117,7 @@ function TodoPage() {
 
           <button
             onClick={getRes}
-            className="bg-blue-800 w-64 h-10 rounded-md text-white"
+            className="bg-blue-800 text-white w-full sm:w-auto px-6 py-3 rounded-xl transition hover:bg-blue-700"
           >
             {editIndex !== null ? "Update" : "Send"}
           </button>
@@ -125,43 +125,54 @@ function TodoPage() {
       </div>
 
       {/* NOTES SECTION */}
-      <div className="w-full mt-10 px-10 overflow-y-auto">
+      <div className="w-full max-w-6xl mt-8 px-2 sm:px-0">
+        {responses.length === 0 ? (
+          <p className="text-center text-slate-300 mt-6">
+            No notes yet. Add one using the form above.
+          </p>
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {responses.map((item, index) => (
+              <div
+                key={index}
+                className="relative bg-blue-900 rounded-3xl p-5 shadow-lg shadow-blue-900"
+              >
+                <div className="flex flex-wrap justify-end gap-2 mb-4">
+                  <button
+                    onClick={() => handleUpdate(item, index)}
+                    className="bg-yellow-500 text-white px-3 py-1 rounded-xl text-xs sm:text-sm"
+                  >
+                    Update
+                  </button>
 
-  <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:justify-between">
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="bg-red-500 text-white px-3 py-1 rounded-xl text-xs sm:text-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
 
-    {responses.map((item, index) => (
-      <div
-        key={index}
-        className="relative bg-blue-900 w-80 rounded-lg p-3"
-      >
-              <div className="flex justify-end gap-2 mb-2">
-                <button
-                  onClick={() => handleUpdate(item, index)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded"
-                >
-                  Update
-                </button>
-
-                <button
-                  onClick={() => handleDelete(index)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Delete
-                </button>
+                <p className="text-sm text-slate-200 mb-2">
+                  <span className="font-semibold">Message :</span> {item.message || "-"}
+                </p>
+                <p className="text-sm text-slate-200 mb-1">
+                  <span className="font-semibold">Name :</span> {item.data?.name || "Unknown"}
+                </p>
+                <p className="text-sm text-slate-200 mb-1">
+                  <span className="font-semibold">Date :</span> {item.data?.date || "-"}
+                </p>
+                <p className="text-sm text-slate-200 mb-1">
+                  <span className="font-semibold">Subject :</span> {item.data?.subject || "-"}
+                </p>
+                <p className="text-sm text-slate-200">
+                  <span className="font-semibold">Text :</span> {item.data?.text || "-"}
+                </p>
               </div>
-
-              <p><b>Message :</b> {item.message}</p>
-              <p><b>Name :</b> {item.data.name}</p>
-              <p><b>Date :</b> {item.data.date}</p>
-              <p><b>Subject :</b> {item.data.subject}</p>
-              <p><b>Text :</b> {item.data.text}</p>
-
-            </div>
-          ))}
-
-        </div>
+            ))}
+          </div>
+        )}
       </div>
-
     </div>
   );
 }

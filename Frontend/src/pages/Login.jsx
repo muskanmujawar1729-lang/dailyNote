@@ -42,7 +42,7 @@ function Login() {
         try {
 
             const res = await axios.post(
-                "https://mynoteapp-qr22.onrender.com/user/login",
+                "http://localhost:4000/user/login",
                 {
                     email,
                     password

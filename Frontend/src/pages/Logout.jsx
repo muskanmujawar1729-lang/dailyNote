@@ -10,7 +10,7 @@ function Logout() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "https://mynoteapp-qr22.onrender.com/user/logout",
+        "http://localhost:4000/user/logout",
         {},
         {
           headers: {

@@ -51,7 +51,7 @@ function Signup() {
     try {
 
       const res = await axios.post(
-        "https://mynoteapp-qr22.onrender.com/user/register",
+        "http://localhost:4000/user/register",
         {
           username,
           email,

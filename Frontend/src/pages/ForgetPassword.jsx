@@ -18,7 +18,7 @@ function ForgetPassword() {
     try {
 
       const res = await axios.post(
-        "https://mynoteapp-qr22.onrender.com/user/forget-pass",
+        "http://localhost:4000/user/forget-pass",
         { email }
       )
 

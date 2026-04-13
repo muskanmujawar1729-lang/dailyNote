@@ -15,7 +15,7 @@ function VerifyEmail() {
     try {
 
       const res = await axios.post(
-        "https://mynoteapp-qr22.onrender.com/user/verify",
+        "http://localhost:4000/user/verify",
         {},
         {
           headers: {
@@ -41,13 +41,18 @@ function VerifyEmail() {
   }
 
   useEffect(() => {
-    if (token) verifyEmail()
+    if (token) {
+      verifyEmail()
+    } else {
+      toast.error("Verification token missing. Please use the link sent to your email.")
+      navigate("/login")
+    }
   }, [token])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-white gap-3">
       <h2 className="text-xl font-semibold">Verifying Email...</h2>
-      <p className="text-gray-400">Please wait while we verify your account</p>
+      <p className="text-gray-400">Please wait while we verify your account.</p>
 
       <button
         onClick={() => navigate("/login")}

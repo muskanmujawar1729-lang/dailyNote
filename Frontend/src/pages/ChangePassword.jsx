@@ -20,7 +20,7 @@ function ChangePassword() {
     try {
 
       const res = await axios.post(
-        `https://mynoteapp-qr22.onrender.com/user/changePass/${email}`,
+        `http://localhost:4000/user/changePass/${email}`,
         {
           newPassword,
           confirmPassword

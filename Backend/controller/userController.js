@@ -46,9 +46,9 @@ export const register = async (req, res) => {
         });
 
         const token = jwt.sign(
-            { id:newUser._id },
+            { id: newUser._id, email: newUser.email },
             process.env.SECRET_KEY,
-            { expiresIn:"1h" }
+            { expiresIn: "1h" }
         );
 
         newUser.token = token;
@@ -85,7 +85,7 @@ export const verification = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY)
 
-    const user = await User.findOne({ email: decoded.email, token })
+    const user = await User.findOne({ _id: decoded.id, token })
     if (!user) return res.status(404).json({ message: "User not found or token invalid" })
 
     user.isVerified = true
