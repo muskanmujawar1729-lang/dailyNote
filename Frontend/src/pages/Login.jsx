@@ -75,8 +75,8 @@ function Login() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-[300px] bg-white shadow-lg rounded-xl p-4">
+        <div className="min-h-screen flex items-center justify-center px-4 py-8">
+            <div className="w-full max-w-sm bg-white shadow-lg rounded-xl p-6">
 
                 <h1 className="text-center text-xl text-green-600 font-semibold">
                     Login
@@ -89,9 +89,14 @@ function Login() {
                 <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
 
                     {error && (
-                        <p className="bg-red-100 text-center mt-2 text-red-600 p-2 rounded text-sm">
-                            {error}
-                        </p>
+                        <div className="bg-red-100 text-center mt-2 text-red-600 p-2 rounded text-sm">
+                            <p>{error}</p>
+                            {error.includes("Verify your account") && (
+                                <p className="text-xs mt-1">
+                                    Please check your email and click the verification link.
+                                </p>
+                            )}
+                        </div>
                     )}
 
                     <label className="text-[15px] font-semibold">Email</label>

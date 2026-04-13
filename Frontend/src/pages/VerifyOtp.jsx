@@ -50,9 +50,9 @@ function VerifyOtp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-8">
 
-      <div className="bg-white shadow-lg p-6 rounded-lg w-[320px]">
+      <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-sm">
 
         <h2 className="text-lg font-semibold text-center">
           Verify OTP

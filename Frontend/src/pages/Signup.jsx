@@ -64,7 +64,7 @@ function Signup() {
       //  username store
       localStorage.setItem("username", username)
 
-      toast.success("Account created successfully")
+      toast.success("Account created successfully! Please check your email to verify your account.")
 
       setUsername("")
       setEmail("")
@@ -72,7 +72,7 @@ function Signup() {
       setError("")
       setErrors({})
 
-      navigate("/verifyEmail")
+      navigate("/login")
 
     } catch (error) {
 
@@ -85,8 +85,8 @@ function Signup() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-[300px] bg-white shadow-lg rounded-xl p-4">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-sm bg-white shadow-lg rounded-xl p-6">
 
         <h1 className="text-center text-xl text-green-600 font-semibold">
           Sign up
