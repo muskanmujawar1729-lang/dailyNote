@@ -16,27 +16,26 @@ export const verifyMail = async(token,email)=>{
     const template = handlebars.compile(emailTemplate)
     const htmlToSend = template({token:encodeURIComponent(token)})
     const transporter = nodemailer.createTransport({
-        service:"gmail",
-        auth:{
-            user:process.env.EMAIL,
-            pass:process.env.PASSWORD
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
         }
     })
 
+    await transporter.verify()
+
     const mailConfigurations = {
-        from : process.env.EMAIL,
-        to:email,
-        subject:"Email Verification",
-        html:htmlToSend
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Email Verification",
+        html: htmlToSend
     }
-    transporter.sendMail(mailConfigurations,function(error,info){
-        if(error){
-            throw new Error(error)
-        }
-        console.log("Email Send Successfully");
-        console.log(info);
-        
-        
-    })
+
+    const info = await transporter.sendMail(mailConfigurations)
+    console.log("Email sent successfully", info.response)
+    return info
 
 }
