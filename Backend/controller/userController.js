@@ -73,15 +73,13 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check fields
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email and password are required",
+        message: "Email and password required",
       });
     }
 
-    // Find user
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -91,7 +89,6 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -101,9 +98,9 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // ✅ NO verification check here
+    // ❌ IMPORTANT: verification check REMOVE
+    // koi bhi isVerified code nahi hona chahiye
 
-    // Generate token
     const token = jwt.sign(
       { id: user._id },
       process.env.SECRET_KEY,
@@ -117,7 +114,7 @@ export const loginUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.log("LOGIN ERROR:", error);
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Server error",
