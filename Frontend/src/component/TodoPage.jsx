@@ -93,7 +93,7 @@ return (
             placeholder="Enter your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-800  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            className="w-full px-4 py-2 border border-gray-800 text-gray-700  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
 
@@ -101,7 +101,7 @@ return (
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-800  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            className="w-full px-4 py-2 border border-gray-800 text-gray-700  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
@@ -112,7 +112,7 @@ return (
           placeholder="Enter subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-800  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          className="w-full px-4 py-2 border border-gray-800 text-gray-700  rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
           required
         />
 
@@ -122,7 +122,7 @@ return (
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows="5"
-          className="w-full px-4 py-2 border border-gray-800 rounded-lg resize-none focus:ring-2 focus:ring-blue-400 outline-none"
+          className="w-full px-4 py-2 border border-gray-800 text-gray-700 rounded-lg resize-none focus:ring-2 focus:ring-blue-400 outline-none"
           required
         />
 
