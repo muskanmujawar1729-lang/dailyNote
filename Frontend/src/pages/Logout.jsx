@@ -8,6 +8,12 @@ function Logout() {
     try {
       const token = localStorage.getItem("token");
 
+      if (!token) {
+        alert("User already logged out");
+        navigate("/login");
+        return;
+      }
+
       await axios.post(
         "https://dailynote-4.onrender.com/user/logout",
         {},
@@ -20,16 +26,25 @@ function Logout() {
 
       localStorage.removeItem("token");
 
-      alert("Logout successful");
+      alert("Logout successful ✅");
       navigate("/login");
 
     } catch (err) {
-      alert(err.response?.data?.message || "Logout failed");
+      console.log(err.response); // debug
+
+      alert(err.response?.data?.message || "Logout failed ❌");
+
+      // force logout even if API fails
+      localStorage.removeItem("token");
+      navigate("/login");
     }
   };
 
   return (
-    <button onClick={handleLogout}>
+    <button
+      onClick={handleLogout}
+      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+    >
       Logout
     </button>
   );

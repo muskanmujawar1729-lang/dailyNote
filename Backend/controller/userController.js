@@ -123,37 +123,41 @@ export const loginUser = async (req, res) => {
 };
 // ================= LOGOUT =================
 
-export const logoutUser = async (req,res)=>{
-    try{
+export const logoutUser = async (req, res) => {
+  try {
+    const userId = req.userId;
 
-        const userId = req.userId;
-
-        if(!userId){
-            return res.status(400).json({
-                success:false,
-                message:"User not found"
-            });
-        }
-
-        await Session.deleteMany({ userId });
-
-        await User.findByIdAndUpdate(userId,{
-            isLoggedIn:false
-        });
-
-        return res.status(200).json({
-            success:true,
-            message:"Logout successfully"
-        });
-
-    }catch(error){
-
-        return res.status(500).json({
-            success:false,
-            message:error.message
-        });
-
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized user",
+      });
     }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { isLoggedIn: false },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Logout successful",
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 

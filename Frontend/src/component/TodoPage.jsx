@@ -17,7 +17,7 @@ function TodoPage() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "https://dailynote-4.onrender.com/note/create",
+        "https://dailynote-4.onrender.com/user/note",
         { name, date, subject, text },
         {
           headers: {
@@ -61,46 +61,50 @@ function TodoPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#0f1f4b] flex flex-col items-center px-4 py-6">
+return (
+  <div className="min-h-screen bg-gradient-to-br from-[#0f1f4b] to-[#1e3a8a] flex items-center justify-center px-4">
+
+    <div className="w-full max-w-2xl">
 
       {/* Header */}
-      <div className="w-full max-w-3xl flex justify-between items-center mb-6">
-        <h2 className="text-white text-xl md:text-2xl font-bold">
-          Create Note
-        </h2>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-white text-2xl md:text-3xl font-bold">
+          📝 Create Note
+        </h1>
 
         <button
           onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm md:text-base"
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm shadow-md transition"
         >
           Logout
         </button>
       </div>
 
-      {/* Form Card */}
+      {/* Card */}
       <form
         onSubmit={createNote}
-        className="w-full max-w-3xl bg-white p-5 md:p-8 rounded-xl shadow-lg space-y-4"
+        className="bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl space-y-5"
       >
-        {/* Name */}
-        <input
-          type="text"
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-          required
-        />
 
-        {/* Date */}
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg"
-          required
-        />
+        {/* Name + Date Row */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            required
+          />
+
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            required
+          />
+        </div>
 
         {/* Subject */}
         <input
@@ -108,30 +112,32 @@ function TodoPage() {
           placeholder="Enter subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg"
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
           required
         />
 
-        {/* Text */}
+        {/* Textarea */}
         <textarea
           placeholder="Write your note..."
           value={text}
           onChange={(e) => setText(e.target.value)}
-          rows="4"
-          className="w-full px-3 py-2 border rounded-lg resize-none"
+          rows="5"
+          className="w-full px-4 py-2 border rounded-lg resize-none focus:ring-2 focus:ring-blue-400 outline-none"
           required
         />
 
         {/* Button */}
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+          className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2.5 rounded-lg font-semibold hover:scale-[1.02] transition"
         >
-          Create Note
+          Create Note 🚀
         </button>
+
       </form>
     </div>
-  );
+  </div>
+);
 }
 
 export default TodoPage;
