@@ -1,99 +1,109 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaRegStickyNote } from "react-icons/fa";
+import { FileText } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-function Header() {
-    const navigate = useNavigate();
+const Header = () => {
+  const navigate = useNavigate();
 
-    return (
-        <div className="bg-blue-950 min-h-screen text-white flex flex-col">
+  return (
+    <div className="bg-[#0f1f4b] min-h-screen">
+      
+      {/* ===== Navbar ===== */}
+      <header className="flex items-center justify-between px-8 py-4">
+        
+        {/* Logo */}
+        <motion.h1
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl font-bold text-white cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          Daily<span className="text-green-400">NoteS</span>
+        </motion.h1>
 
-            {/* Navbar */}
-            <div className="flex flex-col sm:flex-row justify-between items-center px-6 md:px-10 py-4 gap-4">
+        {/* Navbar Buttons */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex gap-4"
+        >
+          <button
+            onClick={() => navigate("/signup")}
+            className="px-5 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+          >
+            Start Writing
+          </button>
 
-                <h1 className="text-xl md:text-2xl font-semibold">
-                    DaiLy<span className="text-green-500">NoteS</span>
-                </h1>
+          <button
+            onClick={() => navigate("/login")}
+            className="px-5 py-2 border border-green-400 text-white rounded-lg hover:bg-green-500 transition"
+          >
+            View Notes
+          </button>
+        </motion.div>
+      </header>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+      {/* ===== Hero Section ===== */}
+      <section className="flex flex-col items-center justify-center text-center mt-20 px-4">
+        
+        {/* Icon */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="border-2 border-green-400 p-6 rounded-xl mb-6"
+        >
+          <FileText size={40} className="text-green-400" />
+        </motion.div>
 
-                    <button
-                        onClick={() => navigate("/signup")}
-                        className="bg-green-500 px-4 py-2 rounded-lg hover:bg-green-600 w-full sm:w-auto"
-                    >
-                        Start Writing
-                    </button>
+        {/* Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-bold text-white mb-4"
+        >
+          Write Your{" "}
+          <span className="text-green-400">Daily Notes</span>
+        </motion.h1>
 
-                    <button
-                        onClick={() => navigate("/login")}
-                        className="border border-green-500 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white w-full sm:w-auto"
-                    >
-                        View Notes
-                    </button>
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-gray-300 max-w-xl mb-8"
+        >
+          Capture your thoughts, organize your ideas, and keep track of
+          everything that matters to you.
+        </motion.p>
 
-                </div>
-            </div>
+        {/* Hero Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="flex gap-4"
+        >
+          <button
+            onClick={() => navigate("/signup")}
+            className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+          >
+            Get Started
+          </button>
 
-            {/* Hero Section */}
-            <div className="flex flex-1 flex-col justify-center items-center text-center px-6 gap-6">
-
-                {/* Animated Icon */}
-                <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.7, type: "spring" }}
-                    className="text-green-500 text-6xl sm:text-7xl md:text-8xl"
-                >
-                    <FaRegStickyNote />
-                </motion.div>
-
-                {/* Title */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight"
-                >
-                    Write Your <span className="text-green-500">Daily Notes</span>
-                </motion.h1>
-
-                {/* Subtitle */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.8 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-gray-300 max-w-xl text-sm sm:text-base"
-                >
-                    Capture your thoughts, organize your ideas, and keep track of
-                    everything that matters to you.
-                </motion.p>
-
-                {/* Buttons */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto"
-                >
-                    <button
-                        onClick={() => navigate("/signup")}
-                        className="bg-green-500 px-6 py-3 rounded-lg hover:bg-green-600 transition w-full sm:w-auto"
-                    >
-                        Get Started
-                    </button>
-
-                    <button
-                        onClick={() => navigate("/login")}
-                        className="border border-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-white transition w-full sm:w-auto"
-                    >
-                        Login
-                    </button>
-                </motion.div>
-
-            </div>
-        </div>
-    );
-}
+          <button
+            onClick={() => navigate("/login")}
+            className="px-6 py-3 border border-green-400 text-white rounded-lg hover:bg-green-500 transition"
+          >
+            Login
+          </button>
+        </motion.div>
+      </section>
+    </div>
+  );
+};
 
 export default Header;

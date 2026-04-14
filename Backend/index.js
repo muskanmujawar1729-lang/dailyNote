@@ -1,63 +1,42 @@
 import express from "express";
 import dotenv from "dotenv";
-import ConnectDb from "./Database/Db.js";
-import userRoute from "./routes/userRouter.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import nodemailer from "nodemailer";
+import ConnectDb from "./Database/Db.js";
+import userRoute from "./routes/userRouter.js";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: ["http://localhost:5173", "https://my-notes-apps.netlify.app"],
-  credentials: true
-}));
-
+// ================= MIDDLEWARE =================
 app.use(express.json());
 app.use(cookieParser());
 
+// ================= CORS =================
+app.use(
+  cors({
+    origin: "https://my-notes-apps.netlify.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
+// ================= TEST ROUTE =================
 app.get("/", (req, res) => {
-  res.send("Hello Muskan");
+  res.send("🚀 Server is running (No Nodemailer Version)");
 });
 
-app.get("/test-mail", async (req, res) => {
-  try {
-    console.log("EMAIL:", process.env.EMAIL);
-    console.log("PASSWORD:", process.env.PASSWORD);
-
-    const transporter = (await import("nodemailer")).default.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-      }
-    });
-
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: process.env.EMAIL,
-      subject: "Test Mail",
-      text: "Mail is working"
-    });
-
-    console.log("SUCCESS:", info.response);
-    res.send("Mail sent");
-
-  } catch (error) {
-    console.log("ERROR FULL:", error);
-    res.send("Error sending mail");
-  }
-});
-
+// ================= ROUTES =================
 app.use("/user", userRoute);
 
-ConnectDb().then(() => {
-  app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.PORT}`);
+// ================= DB + SERVER START =================
+ConnectDb()
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`🚀 Server running on port ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ DB connection failed:", err);
   });
-}).catch(err => {
-  console.error("Database connection failed:", err);
-});

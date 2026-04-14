@@ -1,161 +1,88 @@
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import toast from "react-hot-toast"
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-    const [errors, setErrors] = useState({})
-    const [isLoading, setLoading] = useState(false)
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const validate = () => {
-        let newErrors = {}
+    try {
+      const res = await axios.post(
+        "https://dailynote-4.onrender.com/user/login",
+        { email, password }
+      );
 
-        if (!email) {
-            newErrors.email = "Email is required"
-        } else if (!email.includes("@")) {
-            newErrors.email = "Enter valid email"
-        }
+      localStorage.setItem("token", res.data.accessToken);
 
-        if (!password) {
-            newErrors.password = "Password is required"
-        } else if (password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters"
-        }
-        setErrors(newErrors)
+      alert("Login successfully ✅");
+      navigate("/home");
 
-        return Object.keys(newErrors).length === 0
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed ❌");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-[#0f1f4b]">
+      <form
+        onSubmit={handleLogin}
+        className="bg-gray-100 p-8 rounded-xl shadow-lg w-[350px]"
+      >
+        <h2 className="text-2xl font-semibold text-green-600 text-center mb-2">
+          Login
+        </h2>
 
-        if (!validate()) return
-        setLoading(true)
-        setError("")
+        <p className="text-center text-gray-600 mb-6">
+          login to your NoteApp account
+        </p>
 
-        try {
+        {/* Email */}
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full mb-4 px-3 py-2 border rounded-lg"
+          required
+        />
 
-            const res = await axios.post(
-                "https://dailynote-4.onrender.com/user/login",
-                {
-                    email,
-                    password
-                }
-            )
+        {/* Password */}
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full mb-4 px-3 py-2 border rounded-lg"
+          required
+        />
 
-            console.log(res.data)
+        {/* Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded-lg"
+        >
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
-            localStorage.setItem("token", res.data.accessToken)
-            localStorage.setItem("username", res.data.user.username)
-
-            toast.success(res.data.message)
-
-            navigate("/home")
-
-        } catch (error) {
-
-            const message =
-                error.response?.data?.message || "Login failed"
-
-            setError(message)
-
-            toast.error(message)
-
-        } finally {
-
-            setLoading(false)
-
-        }
-    }
-
-    return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-8">
-            <div className="w-full max-w-sm bg-white shadow-lg rounded-xl p-6">
-
-                <h1 className="text-center text-xl text-green-600 font-semibold">
-                    Login
-                </h1>
-
-                <p className="text-center text-gray-600 mt-1">
-                    Login to your NoteApp account
-                </p>
-
-                <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
-
-                    {error && (
-                        <div className="bg-red-100 text-center mt-2 text-red-600 p-2 rounded text-sm">
-                            <p>{error}</p>
-                            {error.includes("Verify your account") && (
-                                <p className="text-xs mt-1">
-                                    Please check your email and click the verification link.
-                                </p>
-                            )}
-                        </div>
-                    )}
-
-                    <label className="text-[15px] font-semibold">Email</label>
-
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        className="border border-gray-300 rounded-lg px-4 py-2 outline-none text-sm"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-
-                    {errors.email && (
-                        <p className="text-red-500 text-xs">{errors.email}</p>
-                    )}
-
-                    <label className="text-[15px] font-semibold">Password</label>
-
-                    <input
-                        type="password"
-                        placeholder="Enter password"
-                        className="border border-gray-300 rounded-lg px-4 py-2 text-sm outline-none"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    {errors.password && (
-                        <p className="text-red-500 text-xs">{errors.password}</p>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="bg-green-600 h-8 rounded-md text-white mt-2"
-                    >
-                        {isLoading ? "Logging in..." : "Login"}
-                    </button>
-
-                    <p className="mt-2 text-center text-sm">
-                        Don't have an account?
-                        <span
-                            className="text-blue-600 cursor-pointer"
-                            onClick={() => navigate("/signup")}
-                        >
-                            signup
-                        </span>
-                    </p>
-
-                    <p
-                        className="text-[12px] mt-2 text-red-500 cursor-pointer"
-                        onClick={() => navigate("/forgetpass")}
-                    >
-                        Forget Password
-                    </p>
-
-                </form>
-            </div>
-        </div>
-    )
+        <p className="text-center mt-3 text-sm">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-blue-600">
+            Signup
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

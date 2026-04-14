@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Logout() {
   const navigate = useNavigate();
 
-  const logoutUser = async () => {
+  const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.post(
+      await axios.post(
         "https://dailynote-4.onrender.com/user/logout",
         {},
         {
@@ -19,31 +18,21 @@ function Logout() {
         }
       );
 
-      if (res.data.success) {
-        alert(res.data.message);
+      localStorage.removeItem("token");
 
-        // remove stored data
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("notes");
+      alert("Logout successful");
+      navigate("/login");
 
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("Logout failed");
+    } catch (err) {
+      alert(err.response?.data?.message || "Logout failed");
     }
   };
 
-  useEffect(() => {
-    logoutUser();
-  }, []);
-
   return (
-    <div className="flex items-center justify-center h-screen text-white text-2xl">
-      Logging out...
-    </div>
+    <button onClick={handleLogout}>
+      Logout
+    </button>
   );
 }
-  
+
 export default Logout;
