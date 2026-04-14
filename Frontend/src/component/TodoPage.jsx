@@ -21,12 +21,18 @@ function TodoPage() {
         { name, date, subject, text },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
-      alert("Note created");
+      alert("Note created ✅");
+
+      // clear form
+      setName("");
+      setDate("");
+      setSubject("");
+      setText("");
 
     } catch (err) {
       alert(err.response?.data?.message || "Error creating note");
@@ -42,8 +48,8 @@ function TodoPage() {
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -56,18 +62,73 @@ function TodoPage() {
   };
 
   return (
-    <div>
-      <h2>Home - Create Note</h2>
+    <div className="min-h-screen bg-[#0f1f4b] flex flex-col items-center px-4 py-6">
 
-      <button onClick={logout}>Logout</button>
+      {/* Header */}
+      <div className="w-full max-w-3xl flex justify-between items-center mb-6">
+        <h2 className="text-white text-xl md:text-2xl font-bold">
+          Create Note
+        </h2>
 
-      <form onSubmit={createNote}>
-        <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
-        <input type="date" onChange={(e) => setDate(e.target.value)} />
-        <input placeholder="Subject" onChange={(e) => setSubject(e.target.value)} />
-        <textarea placeholder="Text" onChange={(e) => setText(e.target.value)} />
+        <button
+          onClick={logout}
+          className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm md:text-base"
+        >
+          Logout
+        </button>
+      </div>
 
-        <button type="submit">Create Note</button>
+      {/* Form Card */}
+      <form
+        onSubmit={createNote}
+        className="w-full max-w-3xl bg-white p-5 md:p-8 rounded-xl shadow-lg space-y-4"
+      >
+        {/* Name */}
+        <input
+          type="text"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          required
+        />
+
+        {/* Date */}
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg"
+          required
+        />
+
+        {/* Subject */}
+        <input
+          type="text"
+          placeholder="Enter subject"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg"
+          required
+        />
+
+        {/* Text */}
+        <textarea
+          placeholder="Write your note..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows="4"
+          className="w-full px-3 py-2 border rounded-lg resize-none"
+          required
+        />
+
+        {/* Button */}
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+        >
+          Create Note
+        </button>
       </form>
     </div>
   );
