@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -65,6 +65,12 @@ function TodoPage() {
       alert("Logout failed");
     }
   };
+  useEffect(() => {
+  const storedName = localStorage.getItem("name");
+  if (storedName) {
+    setName(storedName);
+  }
+}, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f1f4b] to-[#1e3a8a] flex flex-col items-center px-4 py-6">
